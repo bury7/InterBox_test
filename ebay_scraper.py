@@ -18,12 +18,19 @@ class EbayScrapper:
 
     def __str__(self) -> str:
         """Returns the data in a JSON formatted string"""
-        return json.dumps(self.__data , indent=4)
+        if self.__data:
+            return json.dumps(self.__data , indent=4)
+        else:
+            return "Error displaying data: No data available to display."
 
     def save_to_file(self, filename: str) -> None:
         """Saves the data to a file in JSON format"""
-        with open(filename, "w") as file:
-            json.dump(self.__data , file, indent=4)
+        if self.__data:
+            with open(filename, "w") as file:
+                json.dump(self.__data , file, indent=4)
+        else: 
+            print("Error saving data: No data available to save.")
+            return
 
     def __get_response(self, url: str) -> requests.Response:
         """Gets the response from the given URL"""
@@ -64,4 +71,4 @@ if __name__ == "__main__":
     ebay_scrapper = EbayScrapper()
     ebay_scrapper.fetch_data(url)
     print(ebay_scrapper)
-    ebay_scrapper.save_to_file()
+    ebay_scrapper.save_to_file("info.json")
